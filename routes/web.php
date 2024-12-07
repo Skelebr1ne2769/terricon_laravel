@@ -5,6 +5,7 @@ use App\Models\Skill;
 use App\Models\Portfolio;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\SkillController;
+use App\Http\Controllers\PortfolioController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,6 +20,20 @@ Route::get('/skills', [TestController::class, 'getAllSkills']);
 Route::get('/skills/{category}', [TestController::class, 'getSkillsCategory']);
 
 Route::get('/create-skill', [SkillController::class, 'renderCreatePage'])->middleware('auth')->name('skillCreate');
+
+Route::post('/create-skill', [SkillController::class, 'CreateSkill'])->middleware('auth')->name('skillCreate.post');
+
+Route::get('/delete-skill/{id}', [SkillController::class, 'deleteSkill'])->middleware('auth')->name('skillDelete');
+
+
+
+Route::get('/create-job-for-portfolio', [PortfolioController::class, 'renderCreatePage'])->middleware('auth')->name('createJobForPortfolio');
+
+Route::post('/create-job-for-portfolio', [PortfolioController::class, 'createJobForPortfolio'])->middleware('auth')->name('createJobForPortfolio.post');
+
+Route::get('/delete-portfolio-job/{id}', [PortfolioController::class, 'deleteJob'])->middleware('auth')->name('deleteJob');
+
+
 
 Route::get('/portfolio', function(){
     $title = 'Портфолио Terricon';

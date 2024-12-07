@@ -9,10 +9,25 @@ use App\Models\Skill;
 class SkillController extends Controller
 {
     public function renderCreatePage(){
-        return view('createSkill');
+        $skills = Skill::all();
+
+        return view('createSkill')->with('skills', $skills);
     }
 
-    public function createSkill(){
-        
+    public function createSkill(Request $request){
+        $data = $request->all();
+
+        $skill = Skill::create($data);
+
+        return back();
+    }
+
+    public function deleteSkill ($id)
+    {
+        $skill = Skill::find($id);
+        if($skill) {
+            $skill->delete();
+        }
+        return back();
     }
 }

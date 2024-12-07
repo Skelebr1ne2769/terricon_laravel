@@ -18,6 +18,10 @@
                     <x-nav-link href="{{ route('skillCreate') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Skills') }}
                     </x-nav-link>
+
+                    <x-nav-link href="{{ route('createJobForPortfolio') }}" :active="request()->routeIs('dashboard')">
+                        {{ __('Portfolio Jobs') }}
+                    </x-nav-link>
                 </div>
             </div>
 
