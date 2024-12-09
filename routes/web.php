@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Skill;
 use App\Models\Portfolio;
@@ -53,6 +54,22 @@ Route::get('/news', function(){
         'numbers' => '1233213211321321'
     ]);
 });
+
+
+
+
+Route::middleware([
+    'auth',
+    'roleChecker:admin'
+])->prefix('admin')->group(function () {
+    // /admin/users
+    Route::get('/users', [AdminController::class, 'renderUsers'])->name('renderUsers');
+    Route::get('/deleteUser/{id}', [AdminController::class, 'deleteUser'])->name('deleteUser');
+    Route::get('/updateUser/{id}', [AdminController::class, 'updateUser'])->name('updateUser');
+    Route::post('/updateUser/{id}', [AdminController::class, 'updateUserPost'])->name('updateUser.post');
+});
+
+
 
 Route::middleware([
     'auth:sanctum',

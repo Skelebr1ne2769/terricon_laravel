@@ -22,6 +22,10 @@
                     <x-nav-link href="{{ route('createJobForPortfolio') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Portfolio Jobs') }}
                     </x-nav-link>
+
+                    <x-nav-link href="/admin/users" :active="request()->routeIs('dashboard')">
+                        {{ __('Users') }}
+                    </x-nav-link>
                 </div>
             </div>
 
