@@ -23,9 +23,15 @@
                         {{ __('Portfolio Jobs') }}
                     </x-nav-link>
 
+                    @if(auth()->user()->role === 'admin')
                     <x-nav-link href="/admin/users" :active="request()->routeIs('dashboard')">
                         {{ __('Users') }}
                     </x-nav-link>
+
+                    <x-nav-link href="/admin/addUser" :active="request()->routeIs('dashboard')">
+                        {{ __('Add User') }}
+                    </x-nav-link>
+                    @endif
                 </div>
             </div>
 

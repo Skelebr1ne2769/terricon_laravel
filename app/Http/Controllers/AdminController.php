@@ -45,7 +45,27 @@ class AdminController extends Controller
             $user->password = $request->get('password');
             $user->save();
 
-            return redirect('/dashboard');
+            return redirect('admin/users');
+        }else{
+            return abort(404);
+        }
+    }
+
+    public function renderAddUser(){
+        return view('addUser');
+    }
+
+    public function addUserPost(Request $request){
+        $data = $request->all();
+
+        if(isset($data['name']) && isset($data['email']) && isset($data['password'])){
+            $user = User::create($data);
+        }
+
+        if($user){
+            return redirect('admin/users');
+        }else{
+            return abort(400);
         }
     }
 }

@@ -35,6 +35,10 @@ Route::post('/create-job-for-portfolio', [PortfolioController::class, 'createJob
 Route::get('/delete-portfolio-job/{id}', [PortfolioController::class, 'deleteJob'])->middleware('auth')->name('deleteJob');
 
 
+Route::get('/pages/{name}', function ($name) {
+    return view("pages.$name");
+})->name('pages');
+
 
 Route::get('/portfolio', function(){
     $title = 'Портфолио Terricon';
@@ -65,8 +69,12 @@ Route::middleware([
     // /admin/users
     Route::get('/users', [AdminController::class, 'renderUsers'])->name('renderUsers');
     Route::get('/deleteUser/{id}', [AdminController::class, 'deleteUser'])->name('deleteUser');
+
     Route::get('/updateUser/{id}', [AdminController::class, 'updateUser'])->name('updateUser');
     Route::post('/updateUser/{id}', [AdminController::class, 'updateUserPost'])->name('updateUser.post');
+
+    Route::get('/addUser', [AdminController::class, 'renderAddUser'])->name('renderAddUser');
+    Route::post('/addUser', [AdminController::class, 'addUserPost'])->name('addUserPost');
 });
 
 

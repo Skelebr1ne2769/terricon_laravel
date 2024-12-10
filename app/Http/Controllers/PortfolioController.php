@@ -30,4 +30,26 @@ class PortfolioController extends Controller
         }
         return back();
     }
+
+    public function getApiJobs(){
+        $portfolioJobs = Portfolio::all();
+
+        return response()->json([
+            'data' => $portfolioJobs,
+            'count_data' => $portfolioJobs->count()
+        ]);
+    }
+
+    public function createApiJobs(Request $request){
+        $data = $request->all();
+        $portfolioJob = null;
+
+        if(isset($data['name'])){
+            $portfolioJob = Portfolio::create($data);
+        }
+
+        return response()->json([
+            'data' => $portfolioJob
+        ]);
+    }
 }
