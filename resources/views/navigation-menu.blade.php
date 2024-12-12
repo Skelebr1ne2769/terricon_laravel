@@ -31,6 +31,10 @@
                     <x-nav-link href="/admin/addUser" :active="request()->routeIs('dashboard')">
                         {{ __('Add User') }}
                     </x-nav-link>
+
+                    <x-nav-link href="/admin/postCategories" :active="request()->routeIs('dashboard')">
+                        {{ __('Post categories') }}
+                    </x-nav-link>
                     @endif
                 </div>
             </div>

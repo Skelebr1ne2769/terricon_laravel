@@ -8,9 +8,7 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\PortfolioController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [AdminController::class, 'renderWelcomePage'])->name('welcome');
 
 Route::get('/test/{id}', [TestController::class, 'show']);
 
@@ -35,9 +33,7 @@ Route::post('/create-job-for-portfolio', [PortfolioController::class, 'createJob
 Route::get('/delete-portfolio-job/{id}', [PortfolioController::class, 'deleteJob'])->middleware('auth')->name('deleteJob');
 
 
-Route::get('/pages/{name}', function ($name) {
-    return view("pages.$name");
-})->name('pages');
+Route::get('/pages/{name}', [AdminController::class, 'renderPublicPages'])->name('pages');
 
 
 Route::get('/portfolio', function(){
@@ -75,6 +71,13 @@ Route::middleware([
 
     Route::get('/addUser', [AdminController::class, 'renderAddUser'])->name('renderAddUser');
     Route::post('/addUser', [AdminController::class, 'addUserPost'])->name('addUserPost');
+
+    Route::get('/postCategories', [AdminController::class, 'renderCategories'])->name('renderCategories');
+    Route::get('/deleteCategory/{id}', [AdminController::class, 'deleteCategory'])->name('deleteCategory');
+    Route::get('/updateCategory/{id}', [AdminController::class, 'updateCategory'])->name('updateUser');
+    Route::post('/updateCategory/{id}', [AdminController::class, 'updateCategoryPost'])->name('updateCategory.post');
+    Route::get('/addCategory', [AdminController::class, 'addCategory'])->name('addCategory');
+    Route::post('/addCategory', [AdminController::class, 'addCategoryPost'])->name('addCategory.post');
 });
 
 

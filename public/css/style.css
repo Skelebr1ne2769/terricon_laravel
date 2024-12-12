@@ -123,7 +123,7 @@ header{
 		text-indent: -5000px;
 		width: 306px;
 		height:57px;
-		background: url('../images/logo.png') left top no-repeat;
+		background: url('../images/logo.gif') left top no-repeat;
 		float: left;
 	}
 		nav {
@@ -469,6 +469,16 @@ footer {
 			display: inline-block;
 			margin-left: 5px;
 		}
+
+
+.badge {
+	padding: 5px 10px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	display: inline-block;
+	border-radius: 15px;
+	background: #ffa17f;
+}
 /*==========================================*/
     
 /* Project specifics =========================================================== */

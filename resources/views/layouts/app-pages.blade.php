@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Страница</title>
+<title>@yield('title')</title>
 <meta charset="utf-8"><link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/css/reset.css" type="text/css" media="screen">
     <link rel="stylesheet" href="/css/grid.css" type="text/css" media="screen">
@@ -25,10 +25,12 @@
 
 <body>
 	<header>
-		<div class="container_12" style="width: 1080px">
-			<div class="grid_12" style="width: 1080px">
+		<div class="container_12" style="width:1100px;">
+			<div class="grid_12" style="width:1100px;">
 				<div class="wrapper">
-					<a href="/" class="logo">TERRICON</a>
+					<a href="/">
+                        <img src="/images/logo.gif" alt="" width="170">
+                    </a>
 					<nav>
 						<ul class="menu">
 							<li><a href="/">Главная</a></li>
@@ -39,31 +41,22 @@
                             @if (Route::has('login'))
                                 @auth
                                     <li>
-                                        <a
-                                            href="{{ url('/dashboard') }}"
-                                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                                        >
+                                        <a href="{{ url('/dashboard') }}">
                                             Dashboard
                                         </a>
                                     </li>
                                 @else
                                     <li>
-                                        <a
-                                            href="{{ route('login') }}"
-                                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                                        >
-                                            Log in
+                                        <a href="{{ route('login') }}">
+                                            Войти
                                         </a>
                                     </li>
                                     
 
                                     @if (Route::has('register'))
                                         <li>
-                                            <a
-                                                href="{{ route('register') }}"
-                                                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                                            >
-                                                Register
+                                            <a href="{{ route('register') }}">
+                                               Регистрация
                                             </a>
                                         </li>
                                     @endif
