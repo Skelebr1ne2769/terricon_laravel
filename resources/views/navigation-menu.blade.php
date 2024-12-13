@@ -35,6 +35,10 @@
                     <x-nav-link href="/admin/postCategories" :active="request()->routeIs('dashboard')">
                         {{ __('Post categories') }}
                     </x-nav-link>
+
+                    <x-nav-link href="/admin/posts" :active="request()->routeIs('dashboard')">
+                        {{ __('Posts') }}
+                    </x-nav-link>
                     @endif
                 </div>
             </div>

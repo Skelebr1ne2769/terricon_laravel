@@ -31,7 +31,9 @@
                                             style="color: red;" 
                                             onclick="if(!confirm('Точно удалить?')) return false;">Удалить</a>
                                     </td>
-                                    <td><a href="{{ route('updateUser', $user->id) }}">Редактировать</a></td>
+                                    <td>
+                                        <a href="/admin/updateUser/{{$user->id}}">Редактировать</a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

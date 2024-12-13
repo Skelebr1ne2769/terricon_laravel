@@ -7,6 +7,7 @@ use App\Models\Portfolio;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\PortfolioController;
+use App\Http\Controllers\BlogController;
 
 Route::get('/', [AdminController::class, 'renderWelcomePage'])->name('welcome');
 
@@ -56,7 +57,10 @@ Route::get('/news', function(){
 });
 
 
+Route::post('/add-comment', [BlogController::class, 'addComment'])->name('addComment');
 
+Route::get('/delete-comment/{id}', [BlogController::class, 'deleteComment'])->name('deleteComment');
+Route::post('/edit-comment/{id}', [BlogController::class, 'editComment'])->name('editComment');
 
 Route::middleware([
     'auth',
@@ -78,6 +82,13 @@ Route::middleware([
     Route::post('/updateCategory/{id}', [AdminController::class, 'updateCategoryPost'])->name('updateCategory.post');
     Route::get('/addCategory', [AdminController::class, 'addCategory'])->name('addCategory');
     Route::post('/addCategory', [AdminController::class, 'addCategoryPost'])->name('addCategory.post');
+
+    Route::get('/posts', [AdminController::class, 'renderPosts'])->name('renderPosts');
+    Route::get('/deletePost/{id}', [AdminController::class, 'deletePost'])->name('deletePost');
+    Route::get('/updatePost/{id}', [AdminController::class, 'renderUpdatePost'])->name('renderUpdatePost');
+    Route::post('/updatePost/{id}', [AdminController::class, 'updatePost'])->name('updatePost.post');
+    Route::get('/addPost', [AdminController::class, 'renderAddPost'])->name('renderAddPost');
+    Route::post('/addPost', [AdminController::class, 'addPost'])->name('addPost.post');
 });
 
 

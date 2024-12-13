@@ -108,12 +108,13 @@ class AdminController extends Controller
 
             case 'BLOG':
                 $category_id = request()->get('category_id', '');
+                $countPosts = request()->get('count_posts', 10);
                 $data['categories'] = Category::all();
 
                 if($category_id) {
-                    $data['posts'] = Post::where('category_id', $category_id)->get(); 
+                    $data['posts'] = Post::where('category_id', $category_id)->paginate($countPosts); 
                 } else {
-                    $data['posts'] = Post::all();
+                    $data['posts'] = Post::paginate($countPosts);
                 }
                 
                 break;
@@ -175,6 +176,72 @@ class AdminController extends Controller
 
         if($category){
             return redirect('admin/postCategories');
+        }else{
+            return abort(400);
+        }
+    }
+
+    public function renderPosts(){
+        return view('admin.posts')
+            ->with('posts', Post::all())
+            ->with('users', User::all());
+    }
+
+    public function deletePost($id){
+        $post = Post::find($id);
+
+        if($post) {
+            $post->delete();
+        }
+
+        return back();
+    }
+
+    public function renderUpdatePost($id){
+        $post = Post::where('id', $id)->get();
+        $adminUsers = User::where('role', 'admin')->get();
+
+        if($post){
+            return view('updatePost')
+                ->with('post', $post[0])
+                ->with('adminUsers', $adminUsers)
+                ->with('categories', Category::all());
+        }
+    }
+
+    public function updatePost(Request $request, $id){
+        $posts = Post::where('id', $id)->get();
+        $post = $posts[0];
+
+        if($post){
+            $post->name = $request->get('name');
+            $post->user_id = $request->get('user_id');
+            $post->description = $request->get('description');
+            $post->created_at = $request->get('created_at');
+
+            $post->save();
+
+            return redirect('admin/posts');
+        }else{
+            return abort(404);
+        }
+    }
+
+    public function renderAddPost(){
+        return view('addPost')
+            ->with('adminUsers', User::where('role', 'admin')->get())
+            ->with('categories', Category::all());
+    }
+
+    public function addPost(Request $request){
+        $data = $request->all();
+
+        if(isset($data['name'])){
+            $post = Post::create($data);
+        }
+
+        if($post){
+            return redirect('admin/posts');
         }else{
             return abort(400);
         }
