@@ -62,6 +62,10 @@ Route::post('/add-comment', [BlogController::class, 'addComment'])->name('addCom
 Route::get('/delete-comment/{id}', [BlogController::class, 'deleteComment'])->name('deleteComment');
 Route::post('/edit-comment/{id}', [BlogController::class, 'editComment'])->name('editComment');
 
+
+Route::post('/leads', [AdminController::class, 'addLead'])
+    ->name('addLead');
+
 Route::middleware([
     'auth',
     'roleChecker:admin'
@@ -89,6 +93,14 @@ Route::middleware([
     Route::post('/updatePost/{id}', [AdminController::class, 'updatePost'])->name('updatePost.post');
     Route::get('/addPost', [AdminController::class, 'renderAddPost'])->name('renderAddPost');
     Route::post('/addPost', [AdminController::class, 'addPost'])->name('addPost.post');
+
+    Route::get('/leads', [AdminController::class, 'renderLeads'])->name('renderLeads');
+    Route::delete('/leads/{id}', [AdminController::class, 'deleteLead'])->name('deleteLead');
+
+    Route::get('/sliders', [AdminController::class, 'renderSlidersPage'])->name('renderSlidersPage');
+    Route::delete('/sliders/{id}', [AdminController::class, 'deleteSlider'])->name('deleteSlider');
+    Route::get('/add-slider', [AdminController::class, 'renderAddSliderPage'])->name('renderAddSliderPage');
+    Route::post('/add-slider', [AdminController::class, 'addSlider'])->name('addSlider');
 });
 
 

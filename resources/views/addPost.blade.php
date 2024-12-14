@@ -10,7 +10,7 @@
                 
                 <div class="p-6 lg:p-8 bg-white dark:bg-gray-800 dark:bg-gradient-to-bl dark:from-gray-700/50 dark:via-transparent border-b border-gray-200 dark:border-gray-700">
 
-                    <form method="POST" action="">
+                    <form method="POST" action="" enctype="multipart/form-data">
                         @csrf 
             
                         <div>
@@ -42,7 +42,8 @@
 
                         <div class="mt-4">
                             <x-label for="preview" value="{{ __('Preview') }}" />
-                            <x-input id="preview" class="block mt-1 w-full" type="text" name="preview" placeholder="/images/ИМЯ_ФАЙЛА.РАСШИРЕНИЕ_ФАЙЛА" required />
+
+                            <input type="file" accept=".jpg,.png,.jpeg" name="preview" style="color: white"/>
                         </div>
 
                         <div class="mt-4">

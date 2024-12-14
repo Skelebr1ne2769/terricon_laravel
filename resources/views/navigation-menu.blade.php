@@ -39,6 +39,14 @@
                     <x-nav-link href="/admin/posts" :active="request()->routeIs('dashboard')">
                         {{ __('Posts') }}
                     </x-nav-link>
+
+                    <x-nav-link href="/admin/leads" :active="request()->routeIs('dashboard')">
+                        {{ __('Leads') }}
+                    </x-nav-link>
+
+                    <x-nav-link href="/admin/sliders" :active="request()->routeIs('dashboard')">
+                        {{ __('Sliders') }}
+                    </x-nav-link>
                     @endif
                 </div>
             </div>

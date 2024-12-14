@@ -26,6 +26,16 @@
 									<p><a href="#" class="button">More Info</a></p>
 							</div>
 						</div>
+						@foreach($sliders as $slider)
+							<div data-src="storage/{{ $slider->image }}">
+								<div class="camera_caption fadeIn">
+									<h2>{{ $slider->title }}</h2>
+										{{ $slider->description }}
+										<p><a href="{{ $slider->btn_link }}" class="button">{{ $slider->btn_name }}</a></p>
+									</div>
+								</div>
+							</div>
+						@endforeach
 		     		</div>
 		    	</div>
 	  		</div>

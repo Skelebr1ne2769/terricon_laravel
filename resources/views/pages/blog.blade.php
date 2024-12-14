@@ -48,7 +48,7 @@
 													({{ $post->getComments()->count() }}) комментариев<span></span>
 												</div>
 											</div>
-											<figure><a href="{{ route('pages', ['name' => 'post', 'post_id' => $post->id]) }}"><img src="{{ $post->preview }}" alt=""></a><figure>
+											<figure><a href="{{ route('pages', ['name' => 'post', 'post_id' => $post->id]) }}"><img src="/storage/{{ $post->preview }}" alt=""></a><figure>
 												<p>{{ $post->description }}</p>
 												<a href="{{ route('pages', ['name' => 'post', 'post_id' => $post->id]) }}" class="button1">Подробнее</a>
 											</div>

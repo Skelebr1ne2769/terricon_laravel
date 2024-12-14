@@ -39,7 +39,7 @@
 													({{ $post->getComments()->count() }}) комментариев<span></span>
 												</div>
 											</div>
-											<figure><a href="#"><img src="{{ $post->preview }}" alt=""></a><figure>
+											<figure><a href="#"><img src="/storage/{{ $post->preview }}" alt=""></a><figure>
 												<p>{{ $post->description }}</p>
 										</div>
 

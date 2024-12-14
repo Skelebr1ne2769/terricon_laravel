@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\User;
 use App\Models\Skill;
@@ -11,6 +12,8 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\Comments;
 use App\Models\Portfolio;
+use App\Models\Lead;
+use App\Models\Slider;
 
 class AdminController extends Controller
 {
@@ -78,10 +81,12 @@ class AdminController extends Controller
 
 
 
-    public function renderWelcomePage() {
+    public function renderWelcomePage () 
+    {
         $skills = Skill::all();
+        $sliders = Slider::all();
 
-        return view('welcome')->with('skills', $skills);
+        return view('welcome')->with('skills', $skills)->with('sliders', $sliders);
     }
 
     public function renderPublicPages($name) {
@@ -191,8 +196,11 @@ class AdminController extends Controller
         $post = Post::find($id);
 
         if($post) {
+            $imagePath = $post->preview;
             $post->delete();
         }
+
+        Storage::disk('public')->delete($imagePath);
 
         return back();
     }
@@ -212,12 +220,24 @@ class AdminController extends Controller
     public function updatePost(Request $request, $id){
         $posts = Post::where('id', $id)->get();
         $post = $posts[0];
+        $preview = $request->file('preview');
 
         if($post){
             $post->name = $request->get('name');
             $post->user_id = $request->get('user_id');
             $post->description = $request->get('description');
             $post->created_at = $request->get('created_at');
+            
+            if($preview){
+                // delete old file
+                Storage::disk('public')->delete($post->preview);
+
+                // download new file
+                $fileName = time() . '_' . $preview->getClientOriginalName();
+                $fileName = $preview->storeAs('uploads', $fileName, 'public');
+
+                $post->preview = $fileName;
+            }
 
             $post->save();
 
@@ -234,10 +254,29 @@ class AdminController extends Controller
     }
 
     public function addPost(Request $request){
-        $data = $request->all();
+        $name = $request->get('name', '');
+        $user_id = $request->get('user_id', 1);
+        $category_id = $request->get('category_id', 1);
+        $description = $request->get('description', '');
+        $created_at = $request->get('created_at', '');
 
-        if(isset($data['name'])){
-            $post = Post::create($data);
+        $preview = $request->file('preview');
+
+        if(isset($name)){
+            if($preview) {
+                $fileName = time() . '_' . $preview->getClientOriginalName();
+                $fileName = $preview->storeAs('uploads', $fileName, 'public');
+            }
+
+            $post = Post::create([
+                'name' => $name,
+                'user_id' => $user_id,
+                'category_id' => $category_id,
+                'description' => $description,
+                'created_at' => $created_at,
+
+                'preview' => $fileName
+            ]);
         }
 
         if($post){
@@ -245,5 +284,83 @@ class AdminController extends Controller
         }else{
             return abort(400);
         }
+    }
+
+    public function renderLeads(){
+        return view('admin.leads')
+            ->with('leads', Lead::all());
+    }
+
+    public function deleteLead($id){
+        $lead = Lead::find($id);
+
+        if($lead) {
+            $lead->delete();
+        }
+
+        return back();
+    }
+
+    public function addLead(){
+        $data = request()->all();
+
+        if(isset($data['name']) && isset($data['email'])) {
+            Lead::create($data);
+
+            return redirect( route('pages', 
+                ['name' => 'contacts', 'createdLead' => 1]) );
+        }
+        return redirect( route('pages', 
+                ['name' => 'contacts']) );
+    }
+
+    public function renderSlidersPage () 
+    {
+        return view('admin.sliders')
+            ->with('sliders', Slider::all());
+    }
+
+    public function renderAddSliderPage () 
+    {
+        return view('admin.slider.add');
+    }
+
+    public function addSlider (Request $request) 
+    {
+        $title = request()->get('title', 'Заголовок');
+        $image = $request->file('image');   
+        $description = request()->get('description', '');
+        $btn_name = request()->get('btn_name', 'Подробнее');
+        $btn_link = request()->get('btn_link', '');
+
+        $fileName = '';
+
+        if($image) {
+            $fileName = time() . '_' . $image->getClientOriginalName();
+            $fileName = $image->storeAs('uploads', $fileName, 'public');
+        }
+
+        Slider::create([
+            'title' => $title,
+            'description' => $description,
+            'image' => $fileName,
+            'btn_name' => $btn_name,
+            'btn_link' => $btn_link
+        ]);
+        
+        return redirect('admin/sliders');
+    }
+
+    public function deleteSlider($id){
+        $slider = Slider::find($id);
+
+        if($slider) {
+            $imagePath = $slider->image;
+            $slider->delete();
+        }
+
+        Storage::disk('public')->delete($imagePath);
+
+        return back();
     }
 }
