@@ -18,8 +18,8 @@
 							<div class="contacts">
 								<strong class="title">Terricon</strong>
 								Telegram: skelebr1ne<br>
-								Телефон: +7 999 999 99 99<br>
-								E-mail: <a href="#" class="link">stepan060905@mail.ru</a>
+								Телефон: {{ \App\Models\Fielder::ff('phone') }}<br>
+								E-mail: <a href="mailto:{{ \App\Models\Fielder::ff('email') }}" class="link">{{ \App\Models\Fielder::ff('email') }}</a>
 							</div>		
 						</div>
 					</div>

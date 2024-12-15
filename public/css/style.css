@@ -39,6 +39,10 @@ a:hover{
 	text-decoration:none;
 }
 
+.galleryItem img {
+	margin-bottom: 15px;
+}
+
 /* Global Structure ============================================================= */
 
 /* Left & Right alignment */

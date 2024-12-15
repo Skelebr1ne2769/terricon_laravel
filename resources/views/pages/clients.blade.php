@@ -11,7 +11,7 @@
 					<div class="grid_12">
 						<div class="block">
 							<div class="info-block">
-								<a href="https:://t.me/skelebr1ne" rel="nofollow" class="link">Закажите</a> мои услуги до Нового года и получите скидку 15%!
+								{{ \App\Models\Fielder::ff('slogan') }}
 							</div>
 							<a href="https:://t.me/skelebr1ne/" class="button" rel="nofollow">Заказать</a>
 						</div>

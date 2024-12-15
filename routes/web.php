@@ -33,28 +33,13 @@ Route::post('/create-job-for-portfolio', [PortfolioController::class, 'createJob
 
 Route::get('/delete-portfolio-job/{id}', [PortfolioController::class, 'deleteJob'])->middleware('auth')->name('deleteJob');
 
+Route::get('/updateJob/{id}', [PortfolioController::class, 'renderUpdateJob'])->name('renderUpdateJob');
+Route::post('/updateJob/{id}', [PortfolioController::class, 'updateJob'])->name('updateJob.post');
+
+
+
 
 Route::get('/pages/{name}', [AdminController::class, 'renderPublicPages'])->name('pages');
-
-
-Route::get('/portfolio', function(){
-    $title = 'Портфолио Terricon';
-
-    $jobs = Portfolio::all();
-
-    return view('portfolio')
-        ->with('title', $title)
-        ->with('jobs', $jobs);
-});
-
-Route::get('/news', function(){
-    $title = 'Страница новостей';
-
-    return view('news', [
-        'title' => $title,
-        'numbers' => '1233213211321321'
-    ]);
-});
 
 
 Route::post('/add-comment', [BlogController::class, 'addComment'])->name('addComment');
@@ -101,6 +86,12 @@ Route::middleware([
     Route::delete('/sliders/{id}', [AdminController::class, 'deleteSlider'])->name('deleteSlider');
     Route::get('/add-slider', [AdminController::class, 'renderAddSliderPage'])->name('renderAddSliderPage');
     Route::post('/add-slider', [AdminController::class, 'addSlider'])->name('addSlider');
+    Route::get('/editSlider/{id}', [AdminController::class, 'renderEditSliderPage'])->name('renderEditSliderPage');
+    Route::post('/editSlider/{id}', [AdminController::class, 'editSlider'])->name('editSlider');
+
+    Route::get('/gallery', [AdminController::class, 'renderGalleryPage'])->name('renderGalleryPage');
+    Route::delete('/gallery/{id}', [AdminController::class, 'deleteGallery'])->name('deleteGallery');
+    Route::post('/gallery', [AdminController::class, 'addGallery'])->name('addGallery');
 });
 
 

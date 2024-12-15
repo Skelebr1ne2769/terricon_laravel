@@ -45,6 +45,9 @@
                                             <button class="text-red-500"  type="submit">Удалить</button>
                                         </form>
                                     </td>
+                                    <td>
+                                        <a href="{{ route('renderEditSliderPage', $slider->id) }}">Редактировать</a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

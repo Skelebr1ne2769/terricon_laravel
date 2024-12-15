@@ -1,31 +1,85 @@
 <div class="p-6 lg:p-8 bg-white dark:bg-gray-800 dark:bg-gradient-to-bl dark:from-gray-700/50 dark:via-transparent border-b border-gray-200 dark:border-gray-700">
 
-    <h1 class="text-2xl font-medium text-gray-900 dark:text-white">
-        Portfolios jobs
-    </h1>
-
-    <p class="mt-6 text-gray-500 dark:text-gray-400 leading-relaxed">
-        Страница всех работ в портфолио
-    </p>
 
     <div>
-        <form action="" method="post">
+        <form action="" method="post" enctype="multipart/form-data">
             @csrf
-            <input type="text" name="name" placeholder="Введите название работы" />
 
-            <input type="number" min="0" name="price" />
+            <div>
+                <x-label for="name" value="{{ __('Name') }}" />
+                <x-input id="name" class="block mt-1 w-full" type="text" name="name" value="" required autofocus placeholder="Введите название работы"/>
+            </div>
 
-            <input type="text" name="category" placeholder="Введите валюту" />
+            <div class="mt-4">
+                <x-label for="price" value="{{ __('Price') }}" />
+                <x-input id="price" class="block mt-1 w-full" type="number" min="0" max="1000000" name="price" value="" required placeholder="Введите стоимость работы"/>
+            </div>
 
-            <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 disabled:opacity-50 transition ease-in-out duration-150">Создать</button>
+            <div class="mt-4">
+                <x-label for="val" value="{{ __('Currency') }}" />
+                <select name="val" id="val" class="block mt-1" required style="color: black; border-radius: .375rem;">
+                    <option value="$" selected>$</option>
+                    <option value="€">€</option>
+                    <option value="₸">₸</option>
+                    <option value="₽">₽</option>
+                </select>
+            </div>
+
+            <div class="mt-4">
+                <input type="file" accept=".jpg,.png,.jpeg" name="image" />
+            </div>
+
+            <div class="flex items-center justify-end mt-4">
+                <x-button class="ms-4">
+                    {{ __('Add') }}
+                </x-button>
+            </div>
         </form>
     </div>
-
-    @if($portfolioJobs)
-        <p class="mt-6 text-gray-500 dark:text-gray-400 leading-relaxed">
+    <br>
+    <hr>
+    <br>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Price</th>
+                <th>Currency</th>
+            </tr>
+        </thead>
+        <tbody>
             @foreach($portfolioJobs as $portfolioJob)
-                {{ $portfolioJob->name }} <a href="{{ route('deleteJob', $portfolioJob->id) }}" style="color:red;">X</a><br/> 
+                <tr>
+                    <td>{{ $portfolioJob->id }}</td>
+                    <td>{{ $portfolioJob->name }}</td>
+                    <td><img src="/storage/{{ $portfolioJob->image }}" alt="" width="150"></td>
+                    <td>{{ $portfolioJob->price }}</td>
+                    <td>{{ $portfolioJob->val }}</td>
+
+                    <td>
+                        <a href="{{ route('deleteJob', $portfolioJob->id) }}" style="color:red;">Удалить</a>
+                    </td>
+                    <td>
+                        <a href="{{ route('renderUpdateJob', $portfolioJob->id) }}">Редактировать</a>
+                    </td>
+                </tr>
             @endforeach
-        </p>
-    @endif
+        </tbody>
+    </table>
 </div>
+
+<style>
+    table {
+        width: 100%;
+        text-align: left;
+        color: white;
+    }
+    table tr {
+        border-bottom: 1px solid white;
+    }
+    table td{
+        padding: 5px;
+    }
+</style>

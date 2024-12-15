@@ -12,7 +12,7 @@
 					<div class="grid_12">
 						<div class="block">
 							<div class="info-block">
-								<a href="https:://t.me/skelebr1ne" rel="nofollow" class="link">Закажите</a> мои услуги до Нового года и получите скидку 15%!
+								{{ \App\Models\Fielder::ff('slogan') }}
 							</div>
 							<a href="https:://t.me/skelebr1ne/" class="button" rel="nofollow">Заказать</a>
 						</div>
@@ -48,7 +48,11 @@
 													({{ $post->getComments()->count() }}) комментариев<span></span>
 												</div>
 											</div>
-											<figure><a href="{{ route('pages', ['name' => 'post', 'post_id' => $post->id]) }}"><img src="/storage/{{ $post->preview }}" alt=""></a><figure>
+											<figure>
+												<a href="{{ route('pages', ['name' => 'post', 'post_id' => $post->id]) }}">
+													<img src="/storage/{{ $post->preview }}" alt="">
+												</a>
+											<figure>
 												<p>{{ $post->description }}</p>
 												<a href="{{ route('pages', ['name' => 'post', 'post_id' => $post->id]) }}" class="button1">Подробнее</a>
 											</div>

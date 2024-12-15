@@ -14,6 +14,7 @@ use App\Models\Comments;
 use App\Models\Portfolio;
 use App\Models\Lead;
 use App\Models\Slider;
+use App\Models\Gallery;
 
 class AdminController extends Controller
 {
@@ -85,8 +86,9 @@ class AdminController extends Controller
     {
         $skills = Skill::all();
         $sliders = Slider::all();
+        $gallery = Gallery::all();
 
-        return view('welcome')->with('skills', $skills)->with('sliders', $sliders);
+        return view('welcome')->with('skills', $skills)->with('sliders', $sliders)->with('gallery', $gallery);
     }
 
     public function renderPublicPages($name) {
@@ -198,9 +200,8 @@ class AdminController extends Controller
         if($post) {
             $imagePath = $post->preview;
             $post->delete();
+            Storage::disk('public')->delete($imagePath);
         }
-
-        Storage::disk('public')->delete($imagePath);
 
         return back();
     }
@@ -362,5 +363,75 @@ class AdminController extends Controller
         Storage::disk('public')->delete($imagePath);
 
         return back();
+    }
+
+    public function renderEditSliderPage ($id) 
+    {
+        $slider = Slider::find($id);
+
+        if($slider){
+            return view('admin.slider.edit')
+                ->with('slider', $slider);
+        }else{
+            return abort(404);
+        }
+        
+    }
+
+    public function editSlider (Request $request) 
+    {
+        $id = $request->id;
+        $slide = Slider::find($id);
+        if($slide) {
+            $slide->title = request()->get('title', $slide->title);   
+            $slide->description = request()->get('description', '');
+            $slide->btn_name = request()->get('btn_name', $slide->btn_name);
+            $slide->btn_link = request()->get('btn_link', '');
+            $image = $request->file('image');
+            if($image) {
+                Storage::disk('public')->delete($slide->image);
+                // Создаем уникальное имя для файла + поставляем его оригинальное имя и расширение
+                $fileName = time() . '_' . $image->getClientOriginalName();
+                // Получаем итоговый путь к файлу (в данном случае будет uploads/1125151_файл.расширение)
+                $fileName = $image->storeAs('uploads', $fileName, 'public');
+                $slide->image = $fileName;
+            }
+            $slide->save();
+            return redirect( route('renderSlidersPage') );
+        }
+        
+        return abort(404);
+    }
+
+    public function renderGalleryPage ()
+    {
+        $gallery = Gallery::all();
+        return view('admin.gallery')->with('gallery', $gallery);
+    }
+    public function addGallery (Request $request)
+    {
+        $images = $request->file('image');
+
+        foreach($images as $image) {
+            // Создаем уникальное имя для файла + поставляем его оригинальное имя и расширение
+            $fileName = time() . '_' . $image->getClientOriginalName();
+            // Получаем итоговый путь к файлу (в данном случае будет uploads/1125151_файл.расширение)
+            $fileName = $image->storeAs('gallery', $fileName, 'public');
+            
+            Gallery::create([ 'image' => $fileName ]);
+        }
+        return redirect( route('renderGalleryPage') );
+    }
+    public function deleteGallery ($id)
+    {
+        $gallery = Gallery::find($id);
+
+        if($gallery) {
+            $image = $gallery->image;
+            $gallery->delete();
+            Storage::disk('public')->delete($gallery->image);
+            return redirect( route('renderGalleryPage') );
+        }
+        return abort(404);
     }
 }
