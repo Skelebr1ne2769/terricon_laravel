@@ -13,19 +13,19 @@
 				<div class="grid_12">
 					<div class="camera_wrap camera_azure_skin" id="camera_wrap_1">
 						@foreach($sliders as $slider)
-							<div data-src="storage/{{ $slider->image }}">
+							<div data-src="/storage/{{ $slider->image }}">
 								<div class="camera_caption fadeIn">
 									<h2>{{ $slider->title }}</h2>
 										{{ $slider->description }}
 										<p><a href="{{ $slider->btn_link }}" class="button">{{ $slider->btn_name }}</a></p>
-									</div>
 								</div>
 							</div>
 						@endforeach
-		     		</div>
-		    	</div>
-	  		</div>
+					</div>
+				</div>
+			</div>
 		</div>
+	
 
 		<div class="inner">
 			<div class="container_12">
